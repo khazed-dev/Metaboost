@@ -1,0 +1,45 @@
+/* ===== TABLE STYLE FIX ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  table-layout: fixed; /* 👈 giữ độ rộng đều giữa các cột */
+}
+
+thead {
+  background-color: #1877f2;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px 10px;
+  text-align: center; /* 👈 căn giữa chữ */
+  border-bottom: 1px solid #eee;
+  word-wrap: break-word; /* 👈 tránh tràn nội dung dài */
+}
+
+th {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+tr:hover {
+  background-color: #f1f3f8; /* 👈 hiệu ứng hover */
+}
+
+td:first-child, th:first-child {
+  border-left: none;
+}
+
+td:last-child, th:last-child {
+  border-right: none;
+}
+
+/* căn trái riêng cho Caption nếu muốn */
+td:nth-child(3), th:nth-child(3) {
+  text-align: left;
+  padding-left: 15px;
+}

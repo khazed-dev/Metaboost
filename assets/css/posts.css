@@ -1,0 +1,71 @@
+.posts-section h1 {
+  font-size: 26px;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.posts-section p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.filter-bar {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-bar select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  word-wrap: break-word;
+}
+
+th {
+  background: #1877f2;
+  color: white;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f7f9fc;
+}
+
+/* Caption căn trái */
+td:nth-child(3) {
+  text-align: left;
+}
+
+/* Màu trạng thái */
+td.status {
+  font-weight: 600;
+  color: #555;
+}
+td.status.Pending {
+  color: #f39c12;
+}
+td.status.Posted {
+  color: #27ae60;
+}

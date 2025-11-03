@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Boost</title>
+  <link rel="icon" type="image/png" href="assets/img/fav.png" />
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/overview.css">
+  <script type="module" src="assets/js/sidebar.js"></script>
+  <script type="module" src="assets/js/overview.js"></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="assets/img/logo.png" alt="Logo" class="sidebar-logo" />
+  </div>
+
+  <div class="sidebar-menu">
+    <ul>
+      <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
+      <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
+      <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
+      <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
+    </ul>
+  </div>
+
+  <button id="logoutBtn">Đăng xuất</button>
+</aside>
+
+  <!-- Nội dung chính -->
+  <main class="main-content">
+    <section class="overview">
+      <h1>Chào mừng trở lại 💕</h1>
+      <p>Đây là bảng điều khiển tổng quan của MetaBoost. Bạn có thể xem nhanh tình trạng hệ thống, bài đăng và lỗi gần đây.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>📆 Bài đăng chờ xử lý</h3>
+          <p id="pendingCount">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>✅ Đã đăng thành công</h3>
+          <p id="postedCount">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>⚠️ Log lỗi</h3>
+          <p id="errorCount">0</p>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button onclick="window.location='form.html'">➕ Tạo bài đăng mới</button>
+        <button onclick="window.location='posts.html'">📋 Xem danh sách</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

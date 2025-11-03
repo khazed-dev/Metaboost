@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Boost</title>
+  <link rel="icon" type="image/png" href="assets/img/fav.png" />
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/form.css">
+  <script type="module" src="assets/js/sidebar.js"></script>
+  <script type="module" src="assets/js/form.js"></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <img src="assets/img/logo.png" alt="Logo" class="sidebar-logo" />
+  </div>
+
+  <div class="sidebar-menu">
+    <ul>
+      <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
+      <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
+      <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
+      <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
+    </ul>
+  </div>
+
+  <button id="logoutBtn">Đăng xuất</button>
+</aside>
+
+  <!-- Nội dung chính -->
+  <main class="main-content">
+    <section class="form-section">
+      <h1>🧾 Thêm bài đăng mới</h1>
+      <p>Nhập thông tin bài đăng cần thêm vào hệ thống. Các bài mới sẽ có trạng thái <b>Pending</b> mặc định.</p>
+
+      <form id="autoForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Ngày đăng</label>
+            <input type="date" name="Date" required>
+          </div>
+
+          <div class="form-group">
+            <label>Giờ đăng</label>
+            <input type="time" name="Time" required>
+          </div>
+
+          <div class="form-group">
+            <label>Kênh đăng (Channel)</label>
+            <select name="Channel" required>
+              <option value="">-- Chọn fanpage --</option>
+              <option value="Mây Tre Đan">Mây Tre Đan</option>
+              <option value="PlayHub Việt Nam">PlayHub Việt Nam</option>
+              <option value="MetaBoost">MetaBoost</option>
+            </select>
+          </div>
+
+          <div class="form-group wide">
+            <label>Caption</label>
+            <textarea name="Caption" rows="2" placeholder="Nhập nội dung caption..."></textarea>
+          </div>
+
+          <div class="form-group wide">
+            <label>Caption Idea</label>
+            <textarea name="Caption Idea" rows="2" placeholder="Gợi ý caption nếu có..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Loại bài đăng</label>
+            <div class="radio-group">
+              <label><input type="radio" name="MediaType" value="single_image" required> Ảnh đơn</label>
+              <label><input type="radio" name="MediaType" value="multi_image"> Nhiều ảnh</label>
+              <label><input type="radio" name="MediaType" value="video"> Video</label>
+            </div>
+          </div>
+          
+          <div class="form-group wide">
+            <label>Image URL (Nột ảnh)</label>
+            <input type="url" name="Image URL" placeholder="Link 1 ảnh (dạng link có đuôi .jpg/.png)" disabled>
+          </div>
+
+          <div class="form-group wide">
+            <label>Image URLs (Nhiều ảnh)</label>
+            <textarea name="Image URLs" rows="2" placeholder="Link drive folder ảnh" disabled></textarea>
+          </div>
+
+          <div class="form-group wide">
+            <label>Video URL</label>
+            <input type="url" name="Video URL" placeholder="Link drive folder video" disabled>
+          </div>
+
+          <div class="form-group wide">
+            <label>Product Link</label>
+            <input type="url" name="Product Link" placeholder="https://shop.com/...">
+          </div>
+
+          <div class="form-group">
+            <label>Monitor</label>
+            <select name="Monitor">
+              <option value="TRUE">TRUE</option>
+              <option value="FALSE">FALSE</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">📤 Lưu Bài Đăng</button>
+          <p id="formMessage"></p>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
