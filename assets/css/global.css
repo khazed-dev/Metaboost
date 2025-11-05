@@ -107,3 +107,243 @@ body {
 .sidebar-menu li.active {
   background: #26326c;
 }
+/* 📱 Responsive Layout cho mobile */
+@media (max-width: 768px) {
+  /* Sidebar chuyển sang top bar */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 15px;
+    z-index: 1000;
+  }
+
+  .sidebar-menu ul {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .sidebar-menu li {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  #logoutBtn {
+    display: none; /* Ẩn nút đăng xuất trên mobile, có thể cho vào menu */
+  }
+
+  /* Nội dung chính lùi xuống dưới thanh top bar */
+  .main-content {
+    margin-left: 0 !important;
+    margin-top: 80px !important;
+    padding: 10px;
+  }
+
+  /* Form thu gọn */
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  textarea, input, select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+
+  /* Bảng co giãn ngang */
+  .table-container {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 650px;
+  }
+}
+/* ======== MENU TOGGLE ======== */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 15px;
+  z-index: 1200;
+  font-size: 24px;
+  background: #1877f2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  background: #0f5bd5;
+}
+
+/* ======== Responsive Sidebar ======== */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #1e1e2f;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1100;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  body.menu-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 15px;
+  }
+
+  /* Nền mờ khi mở menu */
+  body.menu-open::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+  }
+}
+/* ======================
+📱 Responsive Sidebar Fix (MetaBoost)
+====================== */
+@media (max-width: 768px) {
+
+  /* Nút menu tròn nhỏ */
+  .menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1300;
+    font-size: 22px;
+    background: #1e1e2f;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Sidebar trượt mượt */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 280px;
+    height: 100vh;
+    background: #1e1e2f;
+    transform: translateX(-100%);
+    transition: transform 0.35s ease-in-out;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Khi mở menu */
+  body.menu-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Logo nhỏ lại */
+  .sidebar-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  /* Menu trong sidebar */
+  .sidebar-menu ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-menu li {
+    padding: 14px 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    transition: background 0.25s;
+    border-radius: 10px;
+    margin: 4px 12px;
+  }
+
+  .sidebar-menu li.active,
+  .sidebar-menu li:hover {
+    background: #1877f2;
+  }
+
+  /* Nút đăng xuất */
+  #logoutBtn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 80%;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 8px;
+    margin: 20px 0 30px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #logoutBtn:hover {
+    background: #c0392b;
+  }
+
+  /* Nền mờ khi mở menu */
+  body.menu-open::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1100;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Giảm margin cho nội dung */
+  .main-content {
+    margin-left: 0 !important;
+    margin-top: 70px !important;
+    padding: 15px;
+  }
+}
