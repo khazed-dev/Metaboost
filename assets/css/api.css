@@ -1,66 +1,105 @@
 .api-section {
-  max-width: 800px;
-  margin: auto;
+  padding: 30px;
 }
 
-.api-card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.api-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.api-buttons button,
+.api-update button {
+  padding: 10px 22px;
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.api-buttons button:hover,
+.api-update button:hover {
+  background-color: #0f5bd5;
+}
+
+.api-update {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+}
+
+.api-update input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.api-response {
+  background: #f8f9fa;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow-y: auto;
+  white-space: pre-wrap;
   margin-top: 20px;
 }
-
-.api-card label {
-  font-weight: 600;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.api-card input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.api-actions {
-  margin-top: 15px;
+.formatted-result {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
 }
 
-.api-actions button {
+.token-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.token-card h3 {
+  margin: 0 0 8px;
+  color: #1877f2;
+}
+
+.token-card p {
+  margin: 4px 0;
+}
+
+.token-card textarea {
+  width: 100%;
+  height: 70px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-family: monospace;
+  resize: none;
+  background: #f8f9fa;
+}
+
+.copy-btn {
+  background: #1877f2;
+  color: white;
   border: none;
   border-radius: 6px;
-  padding: 10px 16px;
+  padding: 6px 14px;
+  margin-top: 8px;
   cursor: pointer;
-  background: #1877F2;
-  color: white;
-  font-weight: 600;
+  transition: 0.2s;
+  font-size: 14px;
 }
 
-.api-actions button:hover {
-  background: #145dc8;
+.copy-btn:hover {
+  background: #0f5bd5;
 }
 
-#apiResult {
-  margin-top: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  padding: 12px;
-  font-family: monospace;
-  color: #333;
-  white-space: pre-wrap;
-}
-.api-card h2 {
-  margin-top: 0;
-}
-
-#tokenInput {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}

@@ -35,18 +35,17 @@ function renderPosts(snapshot, filter = "all") {
     hasData = true;
     tableBody.innerHTML += `
       <tr>
-        <td>${formatDate(d.Date)}</td>
+        <td>${formatDate(d.Date)} ${d.Time || ""}</td>
         <td>${d.Channel || ""}</td>
-        <td style="white-space: pre-line; max-width: 300px;">${d.Caption || ""}</td>
+        <td>${d.ProductName || "-"}</td>
         <td class="status ${d.Status}">${d.Status || ""}</td>
         <td>
-          ${
-            d.FBPostID
-              ? `<a href="https://facebook.com/${d.FBPostID}" target="_blank" rel="noopener noreferrer" style="color:#1877F2; text-decoration:none;">
+          ${d.FBPostID
+        ? `<a href="https://facebook.com/${d.FBPostID}" target="_blank" rel="noopener noreferrer" style="color:#1877F2; text-decoration:none;">
                   ${d.FBPostID}
                 </a>`
-              : ""
-          }
+        : ""
+      }
         </td>
         <td>
           <button class="edit-btn" data-id="${docSnap.id}" title="Chỉnh sửa">✏️</button>
@@ -68,7 +67,6 @@ function attachEventHandlers() {
   document.querySelectorAll(".edit-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
-      // Mở form chỉnh sửa
       window.location.href = `form.html?id=${id}`;
     });
   });
@@ -76,14 +74,22 @@ function attachEventHandlers() {
   document.querySelectorAll(".delete-btn").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const id = e.target.dataset.id;
-      if (confirm("🗑️ Bạn có chắc muốn xóa bài này không?")) {
-        try {
-          await deleteDoc(doc(db, "posts", id));
-          alert("✅ Đã xóa bài đăng!");
-        } catch (err) {
-          console.error("❌ Lỗi khi xóa:", err);
+
+      showAlert(
+        "warning",
+        "🗑️ Xóa bài đăng?",
+        "Bạn có chắc chắn muốn xóa bài này không?"
+      ).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await deleteDoc(doc(db, "posts", id));
+            toastAlert("success", "✅ Đã xóa bài đăng!", "Bài đã được xóa khỏi hệ thống.");
+          } catch (err) {
+            console.error("❌ Lỗi khi xóa:", err);
+            toastAlert("error", "Xóa thất bại", "Không thể xóa bài đăng, vui lòng thử lại!");
+          }
         }
-      }
+      });
     });
   });
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,29 +9,30 @@
   <link rel="stylesheet" href="assets/css/global.css">
   <link rel="stylesheet" href="assets/css/form.css">
   <script type="module" src="assets/js/auth-guard.js"></script>
+  <script type="module" src="assets/js/alerts.js"></script>
   <script type="module" src="assets/js/sidebar.js"></script>
   <script type="module" src="assets/js/form.js"></script>
 </head>
 
 <body>
   <!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="assets/img/logo.png" alt="Logo" class="sidebar-logo" />
-  </div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/img/logo.png" alt="Logo" class="sidebar-logo" />
+    </div>
 
-  <div class="sidebar-menu">
-    <ul>
-      <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
-      <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
-      <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
-      <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
-      <li onclick="window.location='api.html'"><span>🧠</span> API</li>
-    </ul>
-  </div>
+    <div class="sidebar-menu">
+      <ul>
+        <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
+        <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
+        <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
+        <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
+        <li onclick="window.location='api.html'"><span>🧠</span> API</li>
+      </ul>
+    </div>
 
-  <button id="logoutBtn">Đăng xuất</button>
-</aside>
+    <button id="logoutBtn">Đăng xuất</button>
+  </aside>
 
 
   <!-- Nội dung chính -->
@@ -62,6 +64,11 @@
               <option value="MetaBoost">MetaBoost</option>
             </select>
           </div>
+          <div class="form-group wide">
+            <label>Tên sản phẩm</label>
+            <input type="text" name="ProductName" placeholder="Nhập tên sản phẩm...">
+          </div>
+
 
           <div class="form-group wide">
             <label>Caption</label>
@@ -81,7 +88,7 @@
               <label><input type="radio" name="MediaType" value="video"> Video</label>
             </div>
           </div>
-          
+
           <div class="form-group wide">
             <!-- <label >Image URL (Nột ảnh)</label> -->
             <input type="hidden" name="Image URL" placeholder="Link 1 ảnh (dạng link có đuôi .jpg/.png)" disabled>
@@ -119,4 +126,5 @@
     </section>
   </main>
 </body>
+
 </html>
