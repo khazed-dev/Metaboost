@@ -24,11 +24,13 @@
       <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
       <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
       <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
+      <li onclick="window.location='api.html'"><span>🧠</span> API</li>
     </ul>
   </div>
 
   <button id="logoutBtn">Đăng xuất</button>
 </aside>
+
 
   <!-- Nội dung chính -->
   <main class="main-content">
@@ -38,6 +40,7 @@
 
       <form id="autoForm">
         <input type="hidden" name="PostID" id="PostID">
+        <input type="hidden" name="FBPostID2" id="FBPostID2">
         <div class="form-grid">
           <div class="form-group">
             <label>Ngày đăng</label>
@@ -72,15 +75,15 @@
           <div class="form-group">
             <label>Loại bài đăng</label>
             <div class="radio-group">
-              <label><input type="radio" name="MediaType" value="single_image" required> Ảnh đơn</label>
+              <!-- <label><input type="radio" name="MediaType" value="single_image" required> Ảnh đơn</label> -->
               <label><input type="radio" name="MediaType" value="multi_image"> Nhiều ảnh</label>
               <label><input type="radio" name="MediaType" value="video"> Video</label>
             </div>
           </div>
           
           <div class="form-group wide">
-            <label>Image URL (Nột ảnh)</label>
-            <input type="url" name="Image URL" placeholder="Link 1 ảnh (dạng link có đuôi .jpg/.png)" disabled>
+            <!-- <label >Image URL (Nột ảnh)</label> -->
+            <input type="hidden" name="Image URL" placeholder="Link 1 ảnh (dạng link có đuôi .jpg/.png)" disabled>
           </div>
 
           <div class="form-group wide">

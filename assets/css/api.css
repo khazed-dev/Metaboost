@@ -1,0 +1,66 @@
+.api-section {
+  max-width: 800px;
+  margin: auto;
+}
+
+.api-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.api-card label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.api-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.api-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.api-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background: #1877F2;
+  color: white;
+  font-weight: 600;
+}
+
+.api-actions button:hover {
+  background: #145dc8;
+}
+
+#apiResult {
+  margin-top: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: monospace;
+  color: #333;
+  white-space: pre-wrap;
+}
+.api-card h2 {
+  margin-top: 0;
+}
+
+#tokenInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

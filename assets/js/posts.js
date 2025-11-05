@@ -3,14 +3,25 @@ import {
   collection,
   onSnapshot,
   deleteDoc,
-  doc,
-  getDoc
+  doc
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 console.log("✅ posts.js loaded");
 
 const tableBody = document.querySelector("#postsTable tbody");
 const statusFilter = document.getElementById("statusFilter");
+
+// 🧩 Định dạng ngày
+function formatDate(dateValue) {
+  if (!dateValue) return "";
+  if (dateValue.seconds) {
+    const jsDate = new Date(dateValue.seconds * 1000);
+    return jsDate.toISOString().split("T")[0];
+  }
+  if (typeof dateValue === "string") return dateValue;
+  if (dateValue instanceof Date) return dateValue.toISOString().split("T")[0];
+  return "";
+}
 
 // 🟩 Hàm render bảng
 function renderPosts(snapshot, filter = "all") {
@@ -24,14 +35,22 @@ function renderPosts(snapshot, filter = "all") {
     hasData = true;
     tableBody.innerHTML += `
       <tr>
-        <td>${d.Date || ""}</td>
+        <td>${formatDate(d.Date)}</td>
         <td>${d.Channel || ""}</td>
-        <td>${d.Caption || ""}</td>
+        <td style="white-space: pre-line; max-width: 300px;">${d.Caption || ""}</td>
         <td class="status ${d.Status}">${d.Status || ""}</td>
-        <td>${d["FB Post ID"] || ""}</td>
         <td>
-          <button class="edit-btn" data-id="${docSnap.id}">✏️</button>
-          <button class="delete-btn" data-id="${docSnap.id}">🗑️</button>
+          ${
+            d.FBPostID
+              ? `<a href="https://facebook.com/${d.FBPostID}" target="_blank" rel="noopener noreferrer" style="color:#1877F2; text-decoration:none;">
+                  ${d.FBPostID}
+                </a>`
+              : ""
+          }
+        </td>
+        <td>
+          <button class="edit-btn" data-id="${docSnap.id}" title="Chỉnh sửa">✏️</button>
+          <button class="delete-btn" data-id="${docSnap.id}" title="Xóa">🗑️</button>
         </td>
       </tr>
     `;
@@ -49,7 +68,7 @@ function attachEventHandlers() {
   document.querySelectorAll(".edit-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const id = e.target.dataset.id;
-      // mở lại form với ID tương ứng
+      // Mở form chỉnh sửa
       window.location.href = `form.html?id=${id}`;
     });
   });
@@ -58,16 +77,19 @@ function attachEventHandlers() {
     btn.addEventListener("click", async (e) => {
       const id = e.target.dataset.id;
       if (confirm("🗑️ Bạn có chắc muốn xóa bài này không?")) {
-        await deleteDoc(doc(db, "posts", id));
-        alert("✅ Đã xóa bài đăng!");
+        try {
+          await deleteDoc(doc(db, "posts", id));
+          alert("✅ Đã xóa bài đăng!");
+        } catch (err) {
+          console.error("❌ Lỗi khi xóa:", err);
+        }
       }
     });
   });
 }
 
-// 🟦 Theo dõi realtime Firestore
+// 🟧 Theo dõi realtime Firestore
 let unsubscribe = null;
-
 function subscribePosts(filter) {
   if (unsubscribe) unsubscribe();
   const ref = collection(db, "posts");
@@ -79,7 +101,7 @@ function subscribePosts(filter) {
 // 🟨 Bắt đầu load
 subscribePosts("all");
 
-// 🟧 Khi người dùng chọn filter
+// 🟪 Khi người dùng chọn filter
 statusFilter?.addEventListener("change", (e) => {
   subscribePosts(e.target.value);
 });

@@ -38,7 +38,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get("id");
 
 if (postId) {
-  // Load dữ liệu để chỉnh sửa
   (async () => {
     try {
       const docRef = doc(db, "posts", postId);
@@ -62,8 +61,24 @@ if (postId) {
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(form));
+
+  // 🟧 Chuẩn hóa dữ liệu
   data.LastChecked = "";
   data.createdAt = serverTimestamp();
+
+  // ✅ Đảm bảo các key không có dấu cách (chuẩn Firestore field name)
+  if (data["FB Post ID"]) {
+    data.FBPostID = data["FB Post ID"];
+    delete data["FB Post ID"];
+  }
+  if (data["Error Message"]) {
+    data.ErrorMessage = data["Error Message"];
+    delete data["Error Message"];
+  }
+  if (data["Last Checked"]) {
+    data.LastChecked = data["Last Checked"];
+    delete data["Last Checked"];
+  }
 
   formMessage.style.color = "#1877f2";
   formMessage.textContent = "⏳ Đang lưu dữ liệu...";
@@ -76,14 +91,17 @@ form?.addEventListener("submit", async (e) => {
     } else {
       // 🟩 Tạo mới
       data.PostID = "POST_" + Date.now();
+      data.FBPostID2 = "";
       data.Status = "Pending";
-      data["FB Post ID"] = "";
-      data["Error Message"] = "";
+      data.FBPostID = "";
+      data.ErrorMessage = "";
       await addDoc(collection(db, "posts"), data);
       formMessage.textContent = "✅ Đã thêm bài đăng!";
     }
 
+    // ⏳ Chuyển về trang danh sách
     setTimeout(() => (window.location.href = "posts.html"), 1000);
+
   } catch (err) {
     console.error("❌ Firestore error:", err);
     formMessage.style.color = "red";
@@ -91,15 +109,12 @@ form?.addEventListener("submit", async (e) => {
   }
 });
 
-
 // 🟨 Hàm gửi dữ liệu sang n8n webhook
 async function sendToN8N(postData) {
   try {
     const res = await fetch("https://autopostfb.duckdns.org/webhook-test/fb-autoposter", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData)
     });
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meta Boost | API</title>
+  <link rel="icon" type="image/png" href="assets/img/fav.png" />
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/api.css" />
+  <script type="module" src="assets/js/sidebar.js"></script>
+  <script type="module" src="assets/js/api.js"></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/img/logo.png" alt="Logo" class="sidebar-logo" />
+    </div>
+
+    <div class="sidebar-menu">
+      <ul>
+        <li onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
+        <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
+        <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
+        <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
+        <li class="active" onclick="window.location='api.html'"><span>🧠</span> API</li>
+      </ul>
+    </div>
+
+    <button id="logoutBtn">Đăng xuất</button>
+  </aside>
+
+  <!-- Nội dung chính -->
+  <main class="main-content">
+    <section class="api-section">
+      <h1>🧠 API Monitor</h1>
+      <p>Nhập URL của API Python (ví dụ: <b>https://api.metaboost.id.vn</b>) để kiểm tra và cập nhật token.</p>
+
+      <!-- Nhập URL gốc -->
+      <div class="api-card">
+        <label>🌐 API Base URL:</label>
+        <input id="apiBaseUrl" type="text" placeholder="https://api.metaboost.id.vn" />
+      </div>
+
+      <!-- Kiểm tra status -->
+      <div class="api-card">
+        <h2>🔍 Kiểm tra endpoint</h2>
+        <input id="endpointInput" type="text" placeholder="/get-token hoặc /status" />
+        <div class="api-actions">
+          <button id="testBtn">▶️ Kiểm tra</button>
+        </div>
+        <pre id="apiResult">{ Kết quả sẽ hiển thị ở đây }</pre>
+      </div>
+
+      <!-- Cập nhật token -->
+      <div class="api-card">
+        <h2>🔑 Cập nhật Token Facebook</h2>
+        <input id="tokenInput" type="text" placeholder="Dán LONG_LIVED_USER_TOKEN mới..." />
+        <div class="api-actions">
+          <button id="updateTokenBtn">💾 Cập nhật Token</button>
+        </div>
+        <pre id="updateResult">{ Kết quả cập nhật }</pre>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
