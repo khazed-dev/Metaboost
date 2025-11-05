@@ -1,0 +1,21 @@
+// assets/js/auth-guard.js
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { app } from "./firebase-config.js";
+
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  const currentPage = window.location.pathname.split("/").pop();
+
+  // 🔹 Nếu chưa đăng nhập và KHÔNG ở trang login → chuyển về login.html
+  if (!user && currentPage !== "login.html") {
+    console.log("🔒 Chưa đăng nhập, chuyển về login...");
+    window.location.href = "login.html";
+  }
+
+  // 🔹 Nếu đã đăng nhập mà lại đang ở trang login → chuyển sang index
+  if (user && currentPage === "login.html") {
+    console.log("✅ Đã đăng nhập, chuyển sang dashboard...");
+    window.location.href = "index.html";
+  }
+});

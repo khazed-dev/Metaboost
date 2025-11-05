@@ -1,1 +1,11 @@
-import { auth } from './firebase-config.js'; import { signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"; const logoutBtn = document.getElementById("logoutBtn"); logoutBtn?.addEventListener("click", async () => { await signOut(auth); alert("Đã đăng xuất!"); window.location.href = "login.html"; });
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { app } from "./firebase-config.js";
+
+const auth = getAuth(app);
+
+document.getElementById("logoutBtn")?.addEventListener("click", () => {
+  signOut(auth).then(() => {
+    console.log("👋 Đã đăng xuất!");
+    window.location.href = "login.html";
+  });
+});
