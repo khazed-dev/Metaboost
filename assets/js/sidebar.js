@@ -17,7 +17,7 @@ if (menuBtn) {
   });
 }
 
-// 🟠 Tự đóng menu khi click ra ngoài (chỉ trên mobile)
+// 🟠 Tự đóng khi click ra ngoài
 document.addEventListener("click", (e) => {
   if (
     document.body.classList.contains("menu-open") &&
