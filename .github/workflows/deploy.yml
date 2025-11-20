@@ -34,8 +34,10 @@ jobs:
             --exclude='.github' \
             --exclude='node_modules' \
             --exclude='.DS_Store' \
+            --exclude='*.sh' \
+            --exclude='*.md' \
             *.html component/ assets/ \
-            ${{ secrets.VPS_USER }}@103.110.33.94:/var/www/metaboost/
+            ${{ secrets.VPS_USER }}@103.110.33.94:/var/www/metaboost/Metaboost/
 
       - name: 🔄 Restart Nginx (if needed)
         run: |
