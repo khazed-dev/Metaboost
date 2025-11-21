@@ -29,8 +29,9 @@ loginBtn?.addEventListener("click", async () => {
       passwordInput.value
     );
     console.log("✅ Đăng nhập:", userCred.user.email);
-    setMessage("✅ Đăng nhập thành công! Đang chuyển hướng...", "green");
-    setTimeout(() => (window.location.href = "index.html"), 1000);
+  setMessage("✅ Đăng nhập thành công! Đang chuyển hướng...", "green");
+  // Redirect to dashboard (posts) instead of login index to avoid reload loop
+  setTimeout(() => { if (!window.location.pathname.endsWith('posts.html')) window.location.href = 'posts.html'; }, 800);
   } catch (e) {
     console.error("❌ Lỗi đăng nhập:", e.message);
     setMessage("❌ " + e.message, "red");
@@ -58,6 +59,9 @@ signupBtn?.addEventListener("click", async () => {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("🔄 Đã đăng nhập sẵn:", user.email);
-    window.location.href = "index.html";
+    // If already authenticated, send to dashboard (posts). Avoid redirecting to login page.
+    if (!window.location.pathname.endsWith('posts.html')) {
+      window.location.href = 'posts.html';
+    }
   }
 });

@@ -1,101 +1,121 @@
-name: 🚀 CI/CD MetaBoost
+name: "🚀 CI/CD MetaBoost"
 
 on:
   push:
     branches:
       - main
-      - dev-*
-      - feature/*
+      - "dev-*"
+      - "feature/**"
   pull_request:
     branches:
       - main
 
 jobs:
-  # Job 1: Check & Test (chạy cho tất cả branches)
+
+  # ==========================================================
+  # Job 1: CHECK & VALIDATE - chạy cho tất cả các branch
+  # ==========================================================
+
   check:
-    name: 🔍 Check & Validate
+    name: "🔍 Check & Validate"
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: 📥 Checkout code
+      - name: "📥 Checkout code"
         uses: actions/checkout@v4
-      
-      - name: ✅ Validate HTML files
+
+      - name: "✅ Validate HTML files"
         run: |
-          echo "🔍 Checking HTML files..."
-          for file in *.html; do
+          echo "🔍 Checking HTML files in src/pages..."
+          for file in src/pages/*.html; do
             if [ -f "$file" ]; then
               echo "✓ $file exists"
             fi
           done
-      
-      - name: ✅ Check required files
+
+      - name: "✅ Check required directories"
         run: |
           echo "🔍 Checking project structure..."
-          [ -d "assets/css" ] && echo "✓ CSS directory exists"
-          [ -d "assets/js" ] && echo "✓ JS directory exists"
-          [ -d "assets/img" ] && echo "✓ Images directory exists"
-          [ -f "index.html" ] && echo "✓ index.html exists"
-          [ -f "login.html" ] && echo "✓ login.html exists"
+          [ -d "src/assets/css" ] && echo "✓ CSS directory exists"
+          [ -d "src/assets/js" ] && echo "✓ JS directory exists"
+          [ -d "src/assets/img" ] && echo "✓ Images directory exists"
+          [ -f "src/pages/index.html" ] && echo "✓ src/pages/index.html exists"
+          [ -f "src/pages/login.html" ] && echo "✓ src/pages/login.html exists"
           echo "✅ All checks passed!"
 
-  # Job 2: Deploy (chỉ chạy khi merge vào main)
+
+  # ==========================================================
+  # Job 2: DEPLOY - chỉ chạy khi push vào main hoặc dev-nhat
+  # ==========================================================
+
   deploy:
-    name: 🌐 Deploy to Production VPS
+    name: "🌐 Deploy to Production VPS"
     runs-on: ubuntu-latest
     needs: check
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-nhat') && github.event_name == 'push'
-    
+    if: |
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-nhat')
+
     steps:
-      - name: 📥 Checkout code
+      - name: "📥 Checkout code"
         uses: actions/checkout@v4
 
-      - name: 🔐 Setup SSH Key
+      - name: "🔐 Setup SSH Key"
         run: |
           mkdir -p $HOME/.ssh
-          # Write SSH key - sử dụng printf để preserve newlines
           printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > $HOME/.ssh/deploy_key
           chmod 600 $HOME/.ssh/deploy_key
-          # Debug: Check key format
-          head -1 $HOME/.ssh/deploy_key
-          wc -l $HOME/.ssh/deploy_key
-          # Thêm host vào known_hosts
           ssh-keyscan -H 103.110.33.94 >> $HOME/.ssh/known_hosts 2>/dev/null
 
-      - name: 📦 Deploy Frontend to VPS
+      - name: "📦 Deploy Frontend to VPS"
         run: |
-          # Sync frontend files (HTML, CSS, JS)
-          rsync -avz --delete \
-            -e "ssh -i $HOME/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='.DS_Store' \
-            --exclude='*.sh' \
-            --exclude='*.md' \
-            src/pages/*.html src/component/ src/assets/ \
-            ${{ secrets.VPS_USER }}@103.110.33.94:/var/www/metaboost/Metaboost/
+          TARGET_DIR="${{ secrets.VPS_USER }}@103.110.33.94:/var/www/metaboost/Metaboost/"
 
-      - name: 🔄 Restart Nginx (if needed)
+          SSH_CMD="ssh -i $HOME/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+          EXCLUDE_OPTIONS="--exclude='.git' --exclude='node_modules' --exclude='.DS_Store' --exclude='*.sh' --exclude='*.md'"
+
+          echo "🚀 Deploying pages/"
+          rsync -avz --delete -e "$SSH_CMD" $EXCLUDE_OPTIONS \
+            src/pages/ \
+            ${TARGET_DIR}pages/
+
+          echo "🚀 Deploying assets/"
+          rsync -avz --delete -e "$SSH_CMD" $EXCLUDE_OPTIONS \
+            src/assets/ \
+            ${TARGET_DIR}assets/
+
+          echo "🚀 Deploying component/"
+          rsync -avz --delete -e "$SSH_CMD" $EXCLUDE_OPTIONS \
+            src/component/ \
+            ${TARGET_DIR}component/
+
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@103.110.33.94 "sudo rm -rf /var/www/metaboost/Metaboost/css /var/www/metaboost/Metaboost/js /var/www/metaboost/Metaboost/img /var/www/metaboost/Metaboost/footer.html /var/www/metaboost/Metaboost/sidebar.html"
+
+      - name: "🔄 Restart Nginx (if needed)"
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VPS_USER }}@103.110.33.94 "sudo systemctl reload nginx"
 
-      - name: ✅ Deployment Success
+      - name: "✅ Deployment Success"
         run: |
           echo "🎉 Deployment completed successfully!"
           echo "🌐 Website: https://metaboost.duckdns.org"
           echo "📅 Deployed at: $(date)"
 
-  # Job 3: Summary (luôn chạy để thông báo kết quả)
+
+  # ==========================================================
+  # Job 3: SUMMARY - luôn chạy
+  # ==========================================================
+
   summary:
-    name: 📊 Workflow Summary
+    name: "📊 Workflow Summary"
     runs-on: ubuntu-latest
     needs: [check, deploy]
     if: always()
-    
+
     steps:
-      - name: � Workflow Status
+      - name: "🚀 Workflow Status"
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "📊 CI/CD Workflow Summary"
@@ -104,24 +124,19 @@ jobs:
           echo "👤 Author: ${{ github.actor }}"
           echo "📝 Commit: ${{ github.event.head_commit.message }}"
           echo ""
-          
+
           if [ "${{ needs.check.result }}" == "success" ]; then
             echo "✅ Check & Validate: PASSED"
           else
             echo "❌ Check & Validate: FAILED"
           fi
-          
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            if [ "${{ needs.deploy.result }}" == "success" ]; then
-              echo "✅ Deployment: SUCCESS"
-              echo "🌐 Live at: https://metaboost.duckdns.org"
-            elif [ "${{ needs.deploy.result }}" == "skipped" ]; then
-              echo "⏭️  Deployment: SKIPPED (not main branch)"
-            else
-              echo "❌ Deployment: FAILED"
-            fi
+
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "✅ Deployment: SUCCESS"
+          elif [ "${{ needs.deploy.result }}" == "skipped" ]; then
+            echo "⏭️ Deployment: SKIPPED"
           else
-            echo "ℹ️  Deployment: SKIPPED (only deploys on main)"
+            echo "❌ Deployment: FAILED"
           fi
-          
+
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
