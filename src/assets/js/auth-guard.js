@@ -16,6 +16,9 @@ onAuthStateChanged(auth, (user) => {
   // 🔹 Nếu đã đăng nhập mà lại đang ở trang login → chuyển sang index
   if (user && currentPage === "login.html") {
     console.log("✅ Đã đăng nhập, chuyển sang dashboard...");
-    window.location.href = "index.html";
+    // Redirect to the dashboard page used by the app (posts.html) to avoid loop
+    if (!window.location.pathname.endsWith('posts.html')) {
+      window.location.href = 'posts.html';
+    }
   }
 });
