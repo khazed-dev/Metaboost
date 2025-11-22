@@ -8,14 +8,32 @@
   <link rel="icon" type="image/png" href="../assets/img/fav.png" />
   <link rel="stylesheet" href="../assets/css/global.css">
   <link rel="stylesheet" href="../assets/css/form.css">
+
+  <!-- Scripts -->
   <script type="module" src="../assets/js/auth-guard.js"></script>
   <script type="module" src="../assets/js/alerts.js"></script>
   <script type="module" src="../assets/js/sidebar.js"></script>
   <script type="module" src="../assets/js/form.js"></script>
+
+  <style>
+    .preview-list img,
+    .preview-list video {
+      width: 120px;
+      height: auto;
+      margin: 8px;
+      border-radius: 8px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
 </head>
 
 <body>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -35,17 +53,18 @@
     <button id="logoutBtn">Đăng xuất</button>
   </aside>
 
-
-  <!-- Nội dung chính -->
+  <!-- MAIN -->
   <main class="main-content">
     <section class="form-section">
       <h1>🧾 Thêm bài đăng mới</h1>
-      <p>Nhập thông tin bài đăng cần thêm vào hệ thống. Các bài mới sẽ có trạng thái <b>Pending</b> mặc định.</p>
+      <p>Các bài mới sẽ có trạng thái <b>Pending</b> mặc định.</p>
 
       <form id="autoForm">
         <input type="hidden" name="PostID" id="PostID">
         <input type="hidden" name="FBPostID2" id="FBPostID2">
+
         <div class="form-grid">
+
           <div class="form-group">
             <label>Ngày đăng</label>
             <input type="date" name="Date" required>
@@ -60,16 +79,13 @@
             <label>Kênh đăng (Channel)</label>
             <select name="Channel" required>
               <option value="">-- Chọn fanpage --</option>
-              <option value="Mây Tre Đan">Mây Tre Đan</option>
-              <option value="PlayHub Việt Nam">PlayHub Việt Nam</option>
-              <option value="MetaBoost">MetaBoost</option>
             </select>
           </div>
+
           <div class="form-group wide">
             <label>Tên sản phẩm</label>
             <input type="text" name="ProductName" placeholder="Nhập tên sản phẩm...">
           </div>
-
 
           <div class="form-group wide">
             <label>Caption</label>
@@ -81,28 +97,29 @@
             <textarea name="Caption Idea" rows="2" placeholder="Gợi ý caption nếu có..."></textarea>
           </div>
 
+          <!-- CHỌN LOẠI MEDIA -->
           <div class="form-group">
             <label>Loại bài đăng</label>
             <div class="radio-group">
-              <!-- <label><input type="radio" name="MediaType" value="single_image" required> Ảnh đơn</label> -->
-              <label><input type="radio" name="MediaType" value="multi_image"> Nhiều ảnh</label>
+              <label><input type="radio" name="MediaType" value="multi_image" checked> Nhiều ảnh</label>
               <label><input type="radio" name="MediaType" value="video"> Video</label>
             </div>
           </div>
 
-          <div class="form-group wide">
-            <!-- <label >Image URL (Nột ảnh)</label> -->
-            <input type="hidden" name="Image URL" placeholder="Link 1 ảnh (dạng link có đuôi .jpg/.png)" disabled>
+          <!-- UPLOAD ẢNH -->
+          <div class="form-group wide" id="imageUploadGroup">
+            <label>Upload tối đa 10 ảnh</label>
+            <input type="file" id="imageUpload" accept="image/*" multiple>
+            <p class="note">Chỉ chọn ảnh nếu không upload video.</p>
+            <div id="imagePreview" class="preview-list"></div>
           </div>
 
-          <div class="form-group wide">
-            <label>Image URLs (Nhiều ảnh)</label>
-            <textarea name="Image URLs" rows="2" placeholder="Link drive folder ảnh" disabled></textarea>
-          </div>
-
-          <div class="form-group wide">
-            <label>Video URL</label>
-            <input type="url" name="Video URL" placeholder="Link drive folder video" disabled>
+          <!-- UPLOAD VIDEO -->
+          <div class="form-group wide" id="videoUploadGroup">
+            <label>Upload video</label>
+            <input type="file" id="videoUpload" accept="video/*">
+            <p class="note">Chỉ chọn video nếu không upload ảnh.</p>
+            <div id="videoPreview" class="preview-list"></div>
           </div>
 
           <div class="form-group wide">
