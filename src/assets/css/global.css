@@ -6,6 +6,10 @@ body {
   background: #f5f6fa;
 }
 
+#sidebar-container {
+  display: contents;
+}
+
 .sidebar {
   width: 240px;
   background: #0d1026;
@@ -14,6 +18,7 @@ body {
   flex-direction: column;
   padding: 20px;
   box-shadow: 2px 0 6px rgba(0,0,0,0.2);
+  min-height: 100vh;
 }
 .sidebar-logo {
   width: 200px;
@@ -30,48 +35,6 @@ body {
   text-align: center;
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar li {
-  padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sidebar li:hover {
-  background: #1a1e3f;
-}
-
-.sidebar li.active {
-  background: #26326c;
-}
-
-#logoutBtn {
-  background: #e94560;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-#logoutBtn:hover {
-  background: #d42d4f;
-}
-
-.main-content {
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-}
 .sidebar-header {
   display: flex;
   flex-direction: column;
@@ -81,6 +44,7 @@ body {
 
 .sidebar-menu {
   flex: 1; /* chiếm phần còn lại giữa header và logout */
+  margin-bottom: 20px;
 }
 
 .sidebar-menu ul {
@@ -90,22 +54,64 @@ body {
 }
 
 .sidebar-menu li {
-  padding: 12px;
-  margin-bottom: 8px;
+  list-style: none;
+  margin-bottom: 10px;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   transition: background 0.2s ease;
 }
 
-.sidebar-menu li:hover {
-  background: #1a1e3f;
+.sidebar-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  color: #c5cae9;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.sidebar-menu li.active {
+.sidebar-menu li a:hover {
+  background: #1a1e3f;
+  color: white;
+}
+
+.sidebar-menu li.active a {
   background: #26326c;
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-menu li a span {
+  font-size: 18px;
+  width: 24px;
+  display: inline-block;
+}
+
+#logoutBtn {
+  background: #e94560;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+#logoutBtn:hover {
+  background: #d42d4f;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
 }
 /* 📱 Responsive Layout cho mobile */
 @media (max-width: 768px) {

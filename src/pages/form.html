@@ -12,52 +12,22 @@
   <!-- Scripts -->
   <script type="module" src="../assets/js/auth-guard.js"></script>
   <script type="module" src="../assets/js/alerts.js"></script>
-  <script type="module" src="../assets/js/sidebar.js"></script>
+  <script type="module" src="../assets/js/sidebar.component.js"></script>
   <script type="module" src="../assets/js/form.js"></script>
 
-  <style>
-    .preview-list img,
-    .preview-list video {
-      width: 120px;
-      height: auto;
-      margin: 8px;
-      border-radius: 8px;
-    }
-
-    .note {
-      font-size: 12px;
-      color: #888;
-    }
-  </style>
+  <!-- All styles managed in form.css -->
 </head>
 
 <body>
-  <button class="menu-toggle" id="menuToggle">☰</button>
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <img src="../assets/img/logo.png" alt="Logo" class="sidebar-logo" />
-    </div>
-
-    <div class="sidebar-menu">
-      <ul>
-        <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
-        <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
-        <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
-        <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
-        <li onclick="window.location='api.html'"><span>🧠</span> API</li>
-      </ul>
-    </div>
-
-    <button id="logoutBtn">Đăng xuất</button>
-  </aside>
+  <app-sidebar></app-sidebar>
 
   <!-- MAIN -->
   <main class="main-content">
     <section class="form-section">
-      <h1>🧾 Thêm bài đăng mới</h1>
-      <p>Các bài mới sẽ có trạng thái <b>Pending</b> mặc định.</p>
+      <div class="form-header">
+        <h1>✨ Thêm bài đăng mới</h1>
+        <p>Tạo nội dung mới cho Fanpage. Các bài viết sẽ được lưu ở trạng thái <span class="badge-pending">Pending</span>.</p>
+      </div>
 
       <form id="autoForm">
         <input type="hidden" name="PostID" id="PostID">
@@ -65,79 +35,113 @@
 
         <div class="form-grid">
 
+          <!-- Thời gian -->
           <div class="form-group">
-            <label>Ngày đăng</label>
+            <label>📅 Ngày đăng</label>
             <input type="date" name="Date" required>
           </div>
 
           <div class="form-group">
-            <label>Giờ đăng</label>
+            <label>⏰ Giờ đăng</label>
             <input type="time" name="Time" required>
           </div>
 
+          <!-- Kênh & Sản phẩm -->
           <div class="form-group">
-            <label>Kênh đăng (Channel)</label>
+            <label>📢 Kênh đăng (Channel)</label>
             <select name="Channel" required>
               <option value="">-- Chọn fanpage --</option>
             </select>
           </div>
 
           <div class="form-group wide">
-            <label>Tên sản phẩm</label>
+            <label>🛍️ Tên sản phẩm</label>
             <input type="text" name="ProductName" placeholder="Nhập tên sản phẩm...">
           </div>
 
+          <!-- Nội dung -->
           <div class="form-group wide">
-            <label>Caption</label>
-            <textarea name="Caption" rows="2" placeholder="Nhập nội dung caption..."></textarea>
+            <label>📝 Caption chính</label>
+            <textarea name="Caption" rows="4" placeholder="Nhập nội dung bài viết tại đây..."></textarea>
           </div>
 
           <div class="form-group wide">
-            <label>Caption Idea</label>
-            <textarea name="Caption Idea" rows="2" placeholder="Gợi ý caption nếu có..."></textarea>
+            <label>💡 Caption Idea (Gợi ý)</label>
+            <textarea name="Caption Idea" rows="2" placeholder="Ghi chú hoặc ý tưởng thêm..."></textarea>
           </div>
 
-          <!-- CHỌN LOẠI MEDIA -->
-          <div class="form-group">
-            <label>Loại bài đăng</label>
-            <div class="radio-group">
-              <label><input type="radio" name="MediaType" value="multi_image" checked> Nhiều ảnh</label>
-              <label><input type="radio" name="MediaType" value="video"> Video</label>
+          <!-- 🎨 MEDIA SELECTION SECTION -->
+          <div class="form-group wide media-selection-group">
+            <label>🎨 Chọn loại media</label>
+            <div class="media-options">
+              <label class="media-card" data-type="multi_image">
+                <input type="radio" name="MediaType" value="multi_image" checked>
+                <div class="media-card-inner">
+                  <span class="media-icon">🖼️</span>
+                  <span class="media-label">Nhiều ảnh</span>
+                  <span class="media-hint">JPG, PNG, WebP - Max 10</span>
+                </div>
+              </label>
+              <label class="media-card" data-type="video">
+                <input type="radio" name="MediaType" value="video">
+                <div class="media-card-inner">
+                  <span class="media-icon">🎥</span>
+                  <span class="media-label">Video</span>
+                  <span class="media-hint">MP4 - Max 100MB</span>
+                </div>
+              </label>
             </div>
           </div>
 
-          <!-- UPLOAD ẢNH -->
-          <div class="form-group wide" id="imageUploadGroup">
-            <label>Upload tối đa 10 ảnh</label>
-            <input type="file" id="imageUpload" accept="image/*" multiple>
-            <p class="note">Chỉ chọn ảnh nếu không upload video.</p>
-            <div id="imagePreview" class="preview-list"></div>
+          <!-- 📸 IMAGE UPLOAD SECTION -->
+          <div class="form-group wide upload-section" id="imageUploadGroup" style="display: block;">
+            <label>📸 Upload ảnh</label>
+            <div class="upload-box" id="imageUploadBox">
+              <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png,.webp" multiple>
+              <div class="upload-placeholder">
+                <span class="upload-icon">☁️</span>
+                <p>Kéo thả hoặc click để chọn ảnh</p>
+                <span class="upload-hint">Hỗ trợ: JPG, PNG, WebP · Tối đa 10 file</span>
+              </div>
+            </div>
+            <div id="imagePreview" class="preview-gallery"></div>
+            <div id="imageError" class="upload-error"></div>
           </div>
 
-          <!-- UPLOAD VIDEO -->
-          <div class="form-group wide" id="videoUploadGroup">
-            <label>Upload video</label>
-            <input type="file" id="videoUpload" accept="video/*">
-            <p class="note">Chỉ chọn video nếu không upload ảnh.</p>
-            <div id="videoPreview" class="preview-list"></div>
+          <!-- 🎬 VIDEO UPLOAD SECTION -->
+          <div class="form-group wide upload-section" id="videoUploadGroup" style="display: none;">
+            <label>🎬 Upload video</label>
+            <div class="upload-box" id="videoUploadBox">
+              <input type="file" id="videoUpload" accept=".mp4,video/mp4">
+              <div class="upload-placeholder">
+                <span class="upload-icon">🎞️</span>
+                <p>Kéo thả hoặc click để chọn video</p>
+                <span class="upload-hint">Định dạng MP4 · Tối đa 100MB</span>
+              </div>
+            </div>
+            <div id="videoPreview" class="preview-video"></div>
+            <div id="videoError" class="upload-error"></div>
           </div>
 
+          <!-- Link & Monitor -->
           <div class="form-group wide">
-            <label>Product Link</label>
+            <label>🔗 Product Link</label>
             <input type="url" name="Product Link" placeholder="https://shop.com/...">
           </div>
 
           <div class="form-group">
-            <label>Monitor</label>
+            <label>👀 Monitor</label>
             <select name="Monitor">
-              <option value="TRUE">TRUE</option>
-              <option value="FALSE">FALSE</option>
+              <option value="TRUE">TRUE (Theo dõi)</option>
+              <option value="FALSE">FALSE (Không)</option>
             </select>
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="submit">📤 Lưu Bài Đăng</button>
+          <button type="submit" class="btn-submit">
+            <span class="btn-icon">📤</span> Lưu Bài Đăng
+          </button>
           <p id="formMessage"></p>
         </div>
       </form>
