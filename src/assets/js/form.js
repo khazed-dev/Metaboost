@@ -14,6 +14,148 @@ const form = document.getElementById("autoForm");
 const formMessage = document.getElementById("formMessage");
 
 // =============================================================
+// 🎨 MEDIA SELECTION & VALIDATION
+// =============================================================
+const imageGroup = document.getElementById("imageUploadGroup");
+const videoGroup = document.getElementById("videoUploadGroup");
+const imageInput = document.getElementById("imageUpload");
+const videoInput = document.getElementById("videoUpload");
+const previewImages = document.getElementById("imagePreview");
+const previewVideo = document.getElementById("videoPreview");
+const imageError = document.getElementById("imageError");
+const videoError = document.getElementById("videoError");
+
+let uploadedImageURLs = [];
+let uploadedVideoURL = null;
+
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const ALLOWED_IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+const MAX_IMAGES = 10;
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+const MAX_IMAGE_SIZE = 20 * 1024 * 1024; // 20MB per image
+
+// Media Type Toggle
+function toggleMediaInput(type) {
+  if (type === "multi_image") {
+    imageGroup.style.display = "block";
+    videoGroup.style.display = "none";
+    // Reset video
+    videoInput.value = "";
+    previewVideo.innerHTML = "";
+    videoError.classList.remove("show");
+    uploadedVideoURL = null;
+  } else {
+    imageGroup.style.display = "none";
+    videoGroup.style.display = "block";
+    // Reset images
+    imageInput.value = "";
+    previewImages.innerHTML = "";
+    imageError.classList.remove("show");
+    uploadedImageURLs = [];
+  }
+}
+
+document.querySelectorAll('input[name="MediaType"]').forEach(radio => {
+  radio.addEventListener("change", (e) => toggleMediaInput(e.target.value));
+});
+
+// =============================================================
+// 📸 IMAGE VALIDATION & PREVIEW
+// =============================================================
+imageInput?.addEventListener("change", (e) => {
+  previewImages.innerHTML = "";
+  imageError.classList.remove("show");
+  imageError.textContent = "";
+
+  const files = Array.from(e.target.files);
+
+  // Check count
+  if (files.length > MAX_IMAGES) {
+    const msg = `⚠️ Chỉ được chọn tối đa ${MAX_IMAGES} ảnh! Bạn chọn ${files.length} file.`;
+    imageError.textContent = msg;
+    imageError.classList.add("show");
+    imageInput.value = "";
+    uploadedImageURLs = [];
+    return;
+  }
+
+  let validCount = 0;
+  files.forEach((file, index) => {
+    // Check type
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      console.warn(`❌ File ${index + 1}: ${file.name} không phải định dạng ảnh hỗ trợ`);
+      return;
+    }
+
+    // Check size
+    if (file.size > MAX_IMAGE_SIZE) {
+      const msg = `⚠️ File "${file.name}" quá lớn (> 20MB). Vui lòng nén ảnh.`;
+      imageError.textContent = msg;
+      imageError.classList.add("show");
+      return;
+    }
+
+    validCount++;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.createElement("img");
+      img.src = ev.target.result;
+      img.title = file.name;
+      previewImages.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  if (validCount === 0 && files.length > 0) {
+    const msg = "⚠️ Không có ảnh nào hỗ trợ. Dùng: JPG, PNG, WebP.";
+    imageError.textContent = msg;
+    imageError.classList.add("show");
+    imageInput.value = "";
+    uploadedImageURLs = [];
+  }
+});
+
+// =============================================================
+// 🎬 VIDEO VALIDATION & PREVIEW
+// =============================================================
+videoInput?.addEventListener("change", (e) => {
+  previewVideo.innerHTML = "";
+  videoError.classList.remove("show");
+  videoError.textContent = "";
+
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Check type
+  if (file.type !== "video/mp4" && !file.name.endsWith(".mp4")) {
+    const msg = "⚠️ Chỉ hỗ trợ định dạng .mp4!";
+    videoError.textContent = msg;
+    videoError.classList.add("show");
+    videoInput.value = "";
+    uploadedVideoURL = null;
+    return;
+  }
+
+  // Check size
+  if (file.size > MAX_VIDEO_SIZE) {
+    const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
+    const msg = `⚠️ Video quá lớn (${sizeInMB}MB > 100MB). Vui lòng nén video.`;
+    videoError.textContent = msg;
+    videoError.classList.add("show");
+    videoInput.value = "";
+    uploadedVideoURL = null;
+    return;
+  }
+
+  // Preview
+  const vid = document.createElement("video");
+  vid.src = URL.createObjectURL(file);
+  vid.controls = true;
+  vid.style.maxWidth = "100%";
+  previewVideo.appendChild(vid);
+});
+
+// =============================================================
 // 🟦 Load danh sách Fanpage từ API Flask
 // =============================================================
 async function loadFanpages() {
@@ -44,27 +186,18 @@ loadFanpages();
 // =============================================================
 // 🟦 R2 File Upload Logic
 // =============================================================
-const imageInput = document.getElementById("imageUpload");
-const videoInput = document.getElementById("videoUpload");
-
-const previewImages = document.getElementById("imagePreview");
-const previewVideo = document.getElementById("videoPreview");
-
-let uploadedImageURLs = [];
-let uploadedVideoURL = null;
-
-// 👉 Worker upload endpoint (SỬA ĐÚNG 100%)
+// 👉 Worker upload endpoint
 const R2_UPLOAD_ENDPOINT = "https://metabost-upload.khatranudn.workers.dev/upload";
 
 // Upload file lên R2 Worker (CÓ TRY/CATCH)
 async function uploadToR2(file) {
   try {
-    const form = new FormData();
-    form.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
     const res = await fetch(R2_UPLOAD_ENDPOINT, {
       method: "POST",
-      body: form
+      body: formData
     });
 
     if (!res.ok) {

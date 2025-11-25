@@ -9,30 +9,12 @@
   <link rel="stylesheet" href="../assets/css/logs.css" />
   <script type="module" src="../assets/js/auth-guard.js"></script>
   <script type="module" src="../assets/js/alerts.js"></script>
-  <script type="module" src="../assets/js/sidebar.js"></script>
+  <script type="module" src="../assets/js/sidebar.component.js"></script>
   <script type="module" src="../assets/js/logs.js"></script>
 </head>
 
 <body>
-      <button class="menu-toggle" id="menuToggle">☰</button>
-  <!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <img src="../assets/img/logo.png" alt="Logo" class="sidebar-logo" />
-  </div>
-
-  <div class="sidebar-menu">
-    <ul>
-      <li class="active" onclick="window.location='index.html'"><span>🏠</span> Tổng quan</li>
-      <li onclick="window.location='form.html'"><span>🧾</span> Thêm bài đăng</li>
-      <li onclick="window.location='posts.html'"><span>📋</span> Danh sách bài đăng</li>
-      <li onclick="window.location='logs.html'"><span>⚠️</span> Log lỗi</li>
-      <li onclick="window.location='api.html'"><span>🧠</span> API</li>
-    </ul>
-  </div>
-
-  <button id="logoutBtn">Đăng xuất</button>
-</aside>
+  <app-sidebar></app-sidebar>
 
   <!-- Nội dung chính -->
   <main class="main-content">
