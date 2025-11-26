@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hộp thư - Meta Boost</title>
+  <link rel="icon" type="image/png" href="../assets/img/fav.png" />
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <script type="module" src="../assets/js/supabase.js"></script>
+  <script type="module" src="../assets/js/inbox.component.js"></script>
+  <script type="module" src="../assets/js/auth-guard.js"></script>
+  <script type="module" src="../assets/js/sidebar.component.js"></script>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .inbox-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f5f6fa;
+    }
+    app-inbox {
+      position: static !important;
+      flex: 1;
+      display: flex;
+    }
+    /* Override inbox panel to always show and fill available space */
+    app-inbox::part(panel) {
+      display: flex !important;
+      width: 100% !important;
+      height: 100% !important;
+      position: static !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <app-sidebar></app-sidebar>
+
+  <!-- Main inbox area -->
+  <main class="inbox-main">
+    <app-inbox id="mainInbox"></app-inbox>
+  </main>
+
+  <script type="module">
+    // Auto-open inbox when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      const inbox = document.getElementById('mainInbox');
+      if (inbox && typeof inbox.open === 'function') {
+        inbox.open();
+      }
+    });
+  </script>
+</body>
+</html>
