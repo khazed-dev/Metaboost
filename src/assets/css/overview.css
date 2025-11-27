@@ -54,3 +54,107 @@
 .quick-actions button:hover {
   background: #145cc1;
 }
+
+/* ====== PERFORMANCE TABLE SECTION ====== */
+.performance-section {
+  margin-top: 50px;
+}
+
+.performance-section h2 {
+  font-size: 22px;
+  color: #222;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.performance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.performance-table thead {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.performance-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  white-space: nowrap;
+}
+
+.performance-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e9ecef;
+  color: #212529;
+}
+
+.performance-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.performance-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.performance-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stat-number {
+  font-weight: 600;
+  color: #1877f2;
+  font-size: 16px;
+}
+
+.stat-number.pending {
+  color: #ffc107;
+}
+
+.stat-number.error {
+  color: #e94560;
+}
+
+.stat-number.success {
+  color: #28a745;
+}
+
+.loading-state {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.empty-state {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .performance-table {
+    font-size: 13px;
+  }
+
+  .performance-table th,
+  .performance-table td {
+    padding: 12px 10px;
+  }
+
+  .performance-section h2 {
+    font-size: 18px;
+  }
+}
