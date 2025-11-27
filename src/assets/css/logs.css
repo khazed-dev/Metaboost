@@ -1,67 +1,38 @@
-.logs-section h1 {
-  font-size: 26px;
-  color: #222;
-  margin-bottom: 8px;
-}
-
-.logs-section p {
-  color: #555;
-  margin-bottom: 25px;
-}
-
 .logs-container {
-  position: relative;
-  border-left: 3px solid #1877f2;
-  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .log-entry {
-  position: relative;
-  background: white;
-  margin-bottom: 20px;
-  padding: 15px 20px;
+  background: #1e293b;
+  padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.log-entry::before {
-  content: "⚠️";
-  position: absolute;
-  left: -35px;
-  top: 10px;
-  font-size: 22px;
+  border-left: 5px solid #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .log-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .log-header h3 {
-  font-size: 16px;
-  color: #e74c3c;
   margin: 0;
+  font-size: 18px;
 }
 
-.log-header span {
-  font-size: 13px;
-  color: #888;
-}
-
-.log-body {
-  color: #333;
+.log-body p {
+  margin: 4px 0;
   font-size: 14px;
-  line-height: 1.5;
-}
-
-.log-body b {
-  color: #1877f2;
 }
 
 .loading {
+  padding: 20px;
   text-align: center;
-  color: #888;
-  font-style: italic;
+  color: #94a3b8;
+  font-size: 16px;
 }

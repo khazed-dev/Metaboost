@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meta Boost</title>
+  <title>Meta Boost - Logs</title>
   <link rel="icon" type="image/png" href="../assets/img/fav.png" />
   <link rel="stylesheet" href="../assets/css/global.css" />
   <link rel="stylesheet" href="../assets/css/logs.css" />
+
   <script type="module" src="../assets/js/auth-guard.js"></script>
-  <script type="module" src="../assets/js/alerts.js"></script>
   <script type="module" src="../assets/js/sidebar.component.js"></script>
   <script type="module" src="../assets/js/logs.js"></script>
 </head>
@@ -16,11 +16,10 @@
 <body>
   <app-sidebar></app-sidebar>
 
-  <!-- Nội dung chính -->
   <main class="main-content">
     <section class="logs-section">
-      <h1>⚠️ Log lỗi hệ thống</h1>
-      <p>Danh sách các lỗi và sự cố được ghi lại trong quá trình xử lý bài đăng.</p>
+      <h1>⚠️ Nhật ký lỗi hệ thống</h1>
+      <p>Danh sách các lỗi được ghi lại từ n8n workflow.</p>
 
       <div id="logsContainer" class="logs-container">
         <div class="loading">⏳ Đang tải dữ liệu...</div>
