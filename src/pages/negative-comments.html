@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Comment Tiêu cực</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/negative-comments.css">
+</head>
+
+<body>
+    <app-sidebar></app-sidebar>
+
+    <main class="main-content">
+        <section class="negative-comments-section">
+            <!-- Header -->
+            <div class="section-header">
+                <div class="header-title">
+                    <h1>⚠️ Quản lý Comment Tiêu cực</h1>
+                    <p>Theo dõi và xử lý các bình luận tiêu cực từ khách hàng</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card critical">
+                        <span class="stat-label">Nghiêm trọng</span>
+                        <span class="stat-count" id="criticalCount">0</span>
+                    </div>
+                    <div class="stat-card high">
+                        <span class="stat-label">Cao</span>
+                        <span class="stat-count" id="highCount">0</span>
+                    </div>
+                    <div class="stat-card medium">
+                        <span class="stat-label">Trung bình</span>
+                        <span class="stat-count" id="mediumCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Tìm kiếm theo tên, nội dung...">
+                </div>
+                <div class="filter-group">
+                    <select id="severityFilter" class="filter-select">
+                        <option value="">Tất cả mức độ</option>
+                        <option value="critical">🔴 Nghiêm trọng</option>
+                        <option value="high">🟠 Cao</option>
+                        <option value="medium">🟡 Trung bình</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="intentFilter" class="filter-select">
+                        <option value="">Tất cả ý định</option>
+                        <option value="complaint">Phàn nàn</option>
+                        <option value="question">Câu hỏi</option>
+                        <option value="suggestion">Đề xuất</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button id="refreshBtn" class="btn-refresh" title="Làm mới dữ liệu">🔄</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner"></div>
+                <p>Đang tải dữ liệu...</p>
+            </div>
+
+            <!-- Table Container -->
+            <div class="table-container" id="tableContainer" style="display: none;">
+                <table class="negative-comments-table">
+                    <thead>
+                        <tr>
+                            <th class="col-avatar">Avatar</th>
+                            <th class="col-name">Tên người dùng</th>
+                            <th class="col-message">Nội dung Comment</th>
+                            <th class="col-reply">Phản hồi Bot</th>
+                            <th class="col-sentiment">Sentiment</th>
+                            <th class="col-severity">Mức độ</th>
+                            <th class="col-intent">Ý định</th>
+                            <th class="col-date">Ngày</th>
+                            <th class="col-action">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Comments will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3>Không có dữ liệu</h3>
+                <p>Không tìm thấy comment tiêu cực. Tất cả đang tốt!</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <div class="error-icon">❌</div>
+                <h3>Có lỗi xảy ra</h3>
+                <p id="errorMessage">Vui lòng thử lại sau</p>
+                <button id="retryBtn" class="btn-retry">Thử lại</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Xác nhận xóa</h2>
+                <button class="modal-close" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa comment này? Hành động này không thể hoàn tác.</p>
+                <div class="comment-preview">
+                    <p><strong>Comment:</strong> <span id="previewMessage"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Hủy</button>
+                <button id="confirmDeleteBtn" class="btn btn-danger">Xóa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" style="display: none;"></div>
+
+    <!-- Web Component & Scripts -->
+    <script src="../assets/js/sidebar.component.js" type="module"></script>
+    <script src="../assets/js/negative-comments.js" type="module"></script>
+</body>
+
+</html>
