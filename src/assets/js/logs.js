@@ -1,40 +1,57 @@
 import { db } from './firebase-config.js';
 import { collection, onSnapshot, orderBy, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-console.log("✅ logs.js loaded");
+console.log("🔥 logs.js loaded");
 
 const container = document.getElementById("logsContainer");
+
+function formatTime(ts) {
+  try {
+    const d = new Date(ts);
+    return d.toLocaleString("vi-VN", {
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+  } catch {
+    return "—";
+  }
+}
 
 function renderLogs(snapshot) {
   container.innerHTML = "";
 
-  let hasLogs = false;
+  if (snapshot.empty) {
+    container.innerHTML = `<div class="loading">✅ Không có log lỗi nào.</div>`;
+    return;
+  }
+
   snapshot.forEach(doc => {
     const d = doc.data();
-    if (!d["Error Message"]) return; // bỏ qua bài không lỗi
-    hasLogs = true;
-
     const logItem = document.createElement("div");
     logItem.classList.add("log-entry");
+
     logItem.innerHTML = `
       <div class="log-header">
-        <h3>${d.Channel || "Không rõ kênh"}</h3>
-        <span>${d.LastChecked || "—"}</span>
+        <h3>${d.workflowName || "Không rõ workflow"}</h3>
+        <small>ID: ${d.workflowId || "—"}</small>
       </div>
+
       <div class="log-body">
-        <p><b>Ngày:</b> ${d.Date || "—"} • <b>Giờ:</b> ${d.Time || "—"}</p>
-        <p><b>Caption:</b> ${d.Caption || "(không có)"}</p>
-        <p><b>Lỗi:</b> ${d["Error Message"]}</p>
+        <p><b>⛔ Node lỗi:</b> ${d.nodeName || "—"}</p>
+        <p><b>🕒 Thời gian:</b> ${formatTime(d.timestamp)}</p>
+        <p><b>📄 Message:</b> ${d.message || "(không rõ)"}</p>
       </div>
     `;
+
     container.appendChild(logItem);
   });
-
-  if (!hasLogs) {
-    container.innerHTML = `<div class="loading">✅ Không có lỗi nào được ghi nhận.</div>`;
-  }
 }
 
-// 🟦 Realtime log theo Firestore
-const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+// 🟦 Lấy real-time từ Firestore
+const q = query(collection(db, "error_logs"), orderBy("timestamp", "desc"));
 onSnapshot(q, renderLogs);

@@ -143,6 +143,8 @@ class SidebarComponent extends HTMLElement {
             <li id="nav-form"><a href="form.html"><span>🧾</span> Thêm bài đăng</a></li>
             <li id="nav-posts"><a href="posts.html"><span>📋</span> Danh sách bài đăng</a></li>
             <li id="nav-inbox"><a href="inbox.html"><span>📋</span> Hộp thư</a></li>
+            <li id="nav-comments"><a href="comments.html"><span>💬</span> Quản lý Comment</a></li>
+            <li id="nav-negative"><a href="negative-comments.html"><span>⚠️</span> Comment Tiêu cực</a></li>
             <li id="nav-logs"><a href="logs.html"><span>⚠️</span> Log lỗi</a></li>
             <li id="nav-api"><a href="api.html"><span>🧠</span> API</a></li>
           </ul>
@@ -178,6 +180,8 @@ class SidebarComponent extends HTMLElement {
       'form.html': 'nav-form',
       'posts.html': 'nav-posts',
       'inbox.html': 'nav-inbox',
+      'comments.html': 'nav-comments',
+      'negative-comments.html': 'nav-negative',
       'logs.html': 'nav-logs',
       'api.html': 'nav-api'
     };

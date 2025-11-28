@@ -11,6 +11,7 @@
   <script type="module" src="../assets/js/alerts.js"></script>
   <script type="module" src="../assets/js/sidebar.component.js"></script>
   <script type="module" src="../assets/js/overview.js"></script>
+  <script type="module" src="../assets/js/performance.js"></script>
 </head>
 
 <body>
@@ -40,6 +41,31 @@
       <div class="quick-actions">
         <button onclick="window.location='form.html'">➕ Tạo bài đăng mới</button>
         <button onclick="window.location='posts.html'">📋 Xem danh sách</button>
+      </div>
+
+      <!-- Bảng hiệu suất theo Fanpage -->
+      <div class="performance-section">
+        <h2>📊 Hiệu suất theo Fanpage</h2>
+        <div class="table-container">
+          <div id="loadingState" class="loading-state">
+            <span>⏳ Đang tải dữ liệu…</span>
+          </div>
+          <table id="performanceTable" class="performance-table" style="display: none;">
+            <thead>
+              <tr>
+                <th>📄 Fanpage</th>
+                <th>✅ Đã đăng</th>
+                <th>⏳ Chờ xử lý</th>
+                <th>❌ Lỗi</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+          </table>
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <p>Không có dữ liệu</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
