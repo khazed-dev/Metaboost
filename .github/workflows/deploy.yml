@@ -45,7 +45,7 @@ jobs:
 
 
   # ==========================================================
-  # Job 2: DEPLOY - chỉ chạy khi push vào main hoặc dev-nhat
+  # Job 2: DEPLOY - chỉ chạy khi push vào main
   # ==========================================================
 
   deploy:
@@ -54,7 +54,7 @@ jobs:
     needs: check
     if: |
       github.event_name == 'push' &&
-      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev-nhat')
+      (github.ref == 'refs/heads/main' )
 
     steps:
       - name: "📥 Checkout code"

@@ -127,7 +127,14 @@ class SidebarComponent extends HTMLElement {
     const template = `
       <aside class="sidebar">
         <div class="sidebar-header">
-          <img src="./assets/img/logo.png" alt="Logo" class="sidebar-logo" onerror="this.src='../assets/img/logo.png'" />
+          <!-- Use root-relative path to avoid resolving relative to page URL (prevents 404 under /src/pages/) -->
+          <img src="/src/assets/img/logo.png" alt="Logo" class="sidebar-logo" />
+        </div>
+
+        <!-- Sidebar embedded topbar + inbox (Hộp thư) -->
+        <div class="sidebar-inbox" style="display: none;">
+          <app-topbar></app-topbar>
+          <app-inbox></app-inbox>
         </div>
 
         <div class="sidebar-menu">
@@ -135,6 +142,7 @@ class SidebarComponent extends HTMLElement {
             <li id="nav-overview"><a href="index.html"><span>🏠</span> Tổng quan</a></li>
             <li id="nav-form"><a href="form.html"><span>🧾</span> Thêm bài đăng</a></li>
             <li id="nav-posts"><a href="posts.html"><span>📋</span> Danh sách bài đăng</a></li>
+            <li id="nav-inbox"><a href="inbox.html"><span>📋</span> Hộp thư</a></li>
             <li id="nav-comments"><a href="comments.html"><span>💬</span> Quản lý Comment</a></li>
             <li id="nav-negative"><a href="negative-comments.html"><span>⚠️</span> Comment Tiêu cực</a></li>
             <li id="nav-logs"><a href="logs.html"><span>⚠️</span> Log lỗi</a></li>
@@ -171,6 +179,7 @@ class SidebarComponent extends HTMLElement {
       'index.html': 'nav-overview',
       'form.html': 'nav-form',
       'posts.html': 'nav-posts',
+      'inbox.html': 'nav-inbox',
       'comments.html': 'nav-comments',
       'negative-comments.html': 'nav-negative',
       'logs.html': 'nav-logs',
