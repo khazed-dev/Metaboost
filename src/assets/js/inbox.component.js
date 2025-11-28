@@ -438,7 +438,7 @@ class InboxComponent extends HTMLElement {
 
   async sendToWebhook(messageData) {
     try {
-      const webhookUrl = 'https://autopostfb.duckdns.org/webhook/admin-reply';
+      const webhookUrl = 'https://autopostfb.duckdns.org/webhook-test/admin-reply';
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
