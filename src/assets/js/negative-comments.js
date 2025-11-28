@@ -281,7 +281,7 @@ async function handleConfirmDelete() {
         confirmDeleteBtn.textContent = '⏳ Đang xóa...';
 
         // Call n8n webhook
-        const response = await fetch('http://103.110.33.94:46785/webhook-test/delete-comment', {
+        const response = await fetch('https://autopostfb.duckdns.org/webhook/delete-comment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
