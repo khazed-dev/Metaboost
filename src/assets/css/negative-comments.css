@@ -200,10 +200,6 @@
 }
 
 /* Column Styles */
-.col-avatar {
-    width: 60px;
-}
-
 .col-name {
     width: 120px;
     font-weight: 500;
@@ -231,8 +227,9 @@
     width: 100px;
 }
 
-.col-date {
+.col-post {
     width: 130px;
+    text-align: center;
 }
 
 .col-action {
@@ -387,6 +384,32 @@
     background: #95a5a6;
     cursor: not-allowed;
     transform: none;
+}
+
+/* Post Link Button */
+.btn-link {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+}
+
+.btn-link:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-link:active {
+    transform: scale(0.95);
 }
 
 /* Loading State */
@@ -695,16 +718,6 @@
 
     .negative-comments-table tbody td {
         padding: 10px 8px;
-    }
-
-    .col-avatar {
-        width: 50px;
-    }
-
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
     }
 
     .col-message,

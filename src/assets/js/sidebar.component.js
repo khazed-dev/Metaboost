@@ -127,7 +127,7 @@ class SidebarComponent extends HTMLElement {
     const template = `
       <aside class="sidebar">
         <div class="sidebar-header">
-          <!-- Use root-relative path to avoid resolving relative to page URL (prevents 404 under /src/pages/) -->
+          <!-- Relative path from JS file location (src/assets/js/) -->
           <img src="/assets/img/logo.png" alt="Logo" class="sidebar-logo" />
         </div>
 

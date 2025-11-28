@@ -159,10 +159,9 @@ function renderTable() {
 
 function createTableRow(comment) {
     const row = document.createElement('tr');
+    const postUrl = `https://facebook.com/${comment.postId}`;
+    
     row.innerHTML = `
-        <td class="col-avatar">
-            ${createAvatar(comment.fromId, comment.fromName)}
-        </td>
         <td class="col-name" title="${comment.fromName || 'Ẩn danh'}">${sanitizeHTML(comment.fromName || 'Ẩn danh')}</td>
         <td class="col-message">
             <div class="message-preview" title="${comment.customerMessage || ''}">${sanitizeHTML(comment.customerMessage || '')}</div>
@@ -179,7 +178,9 @@ function createTableRow(comment) {
         <td class="col-intent">
             ${createIntentBadge(comment.intent)}
         </td>
-        <td class="col-date">${formatDate(comment.createdAt)}</td>
+        <td class="col-post">
+            <a href="${postUrl}" target="_blank" rel="noopener noreferrer" class="btn-link">🔗 Link bài viết</a>
+        </td>
         <td class="col-action">
             <button class="btn-delete" data-id="${comment.id}" data-post-id="${comment.postId}" data-page-id="${comment.pageId}">
                 🗑️ Xóa
@@ -194,30 +195,6 @@ function createTableRow(comment) {
     });
 
     return row;
-}
-
-// ===== AVATAR CREATION =====
-function createAvatar(fromId, fromName) {
-    // Sử dụng avatar mặc định vì chính sách Facebook
-    return `
-        <img 
-            src="/src/assets/img/avt_mac_dinh.jpg" 
-            alt="${sanitizeHTML(fromName || 'User')}"
-            class="user-avatar"
-        />
-    `;
-}
-
-function createFallbackAvatar(name) {
-    const initials = (name || 'U')
-        .split(' ')
-        .slice(0, 2)
-        .map((word) => word[0])
-        .join('')
-        .toUpperCase()
-        .substring(0, 2);
-
-    return `<div class="user-avatar-fallback">${initials}</div>`;
 }
 
 // ===== BADGE CREATION =====
