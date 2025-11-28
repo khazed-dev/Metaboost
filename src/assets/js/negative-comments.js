@@ -198,19 +198,12 @@ function createTableRow(comment) {
 
 // ===== AVATAR CREATION =====
 function createAvatar(fromId, fromName) {
-    if (!fromId) {
-        return createFallbackAvatar(fromName);
-    }
-
-    const fallback = createFallbackAvatar(fromName);
-    const imageUrl = `https://graph.facebook.com/${fromId}/picture?type=normal&width=48&height=48`;
-
+    // Sử dụng avatar mặc định vì chính sách Facebook
     return `
         <img 
-            src="${imageUrl}" 
+            src="/src/assets/img/avt_mac_dinh.jpg" 
             alt="${sanitizeHTML(fromName || 'User')}"
             class="user-avatar"
-            onerror="this.replaceWith(${fallback.replace(/"/g, '&quot;')})"
         />
     `;
 }
@@ -373,19 +366,41 @@ function showToast(message, type = 'info') {
 }
 
 // ===== UTILITY FUNCTIONS =====
-function formatDate(dateString) {
-    if (!dateString) return 'N/A';
+function formatDate(dateValue) {
+    if (!dateValue) return 'N/A';
 
     try {
-        const date = new Date(dateString);
+        let date;
+
+        // Xử lý Firestore Timestamp object (có toDate() method)
+        if (dateValue && typeof dateValue.toDate === 'function') {
+            date = dateValue.toDate();
+        }
+        // Xử lý ISO string hoặc timestamp số
+        else if (typeof dateValue === 'string') {
+            date = new Date(dateValue);
+        } else if (typeof dateValue === 'number') {
+            date = new Date(dateValue);
+        } else {
+            return 'N/A';
+        }
+
+        // Kiểm tra có phải valid date không
+        if (isNaN(date.getTime())) {
+            return 'N/A';
+        }
+
         const today = new Date();
-        const yesterday = new Date(today);
+        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const dateOnlyDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        
+        const yesterday = new Date(todayDate);
         yesterday.setDate(yesterday.getDate() - 1);
 
-        // Format: HH:MM (ngày hôm nay), Yesterday HH:MM, DD/MM/YYYY (ngày khác)
-        if (date.toDateString() === today.toDateString()) {
+        // Format: HH:MM (ngày hôm nay), Hôm qua HH:MM, DD/MM/YYYY (ngày khác)
+        if (dateOnlyDate.getTime() === todayDate.getTime()) {
             return date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-        } else if (date.toDateString() === yesterday.toDateString()) {
+        } else if (dateOnlyDate.getTime() === yesterday.getTime()) {
             return `Hôm qua ${date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
         } else {
             return date.toLocaleDateString('vi-VN', {
@@ -395,7 +410,8 @@ function formatDate(dateString) {
             });
         }
     } catch (error) {
-        return dateString;
+        console.error('Date format error:', error);
+        return 'N/A';
     }
 }
 
